@@ -13,7 +13,18 @@ export class ServerErrorComponent {
 
   constructor(private router: Router) {
     const navigation = this.router.getCurrentNavigation();
-    this.error = navigation?.extras?.state?.['error'];
-    console.log(this.error);
+    const errorString = navigation?.extras?.state?.['error'];
+
+    if (errorString) { // Check if errorString exists
+      try {
+        this.error = JSON.parse(errorString); // Parse the string!
+        console.log(this.error); // Now check the console
+      } catch (e) {
+        console.error("Error parsing error string:", e);
+        this.error = { message: "An error occurred.", details: "Failed to parse error details." }; // Provide a fallback
+      }
+    } else {
+        this.error = { message: "An error occurred.", details: "No error details provided." };
+    }
   }
 }
