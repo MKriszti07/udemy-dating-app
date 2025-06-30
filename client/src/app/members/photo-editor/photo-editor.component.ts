@@ -80,6 +80,7 @@ export class PhotoEditorComponent implements OnInit {
       const updatedMember = {...this.member()};
       updatedMember.photos.push(photo);
       this.memberChange.emit(updatedMember);
+
       if (photo.isMain) {
         const user = this.accountService.currentUser();
         if (user) {
@@ -92,6 +93,7 @@ export class PhotoEditorComponent implements OnInit {
           if (p.id === photo.id) p.isMain = true;
         });
         this.memberChange.emit(updatedMember);
+        this.memberService.updateMember(photo);
       }
     }
   }
